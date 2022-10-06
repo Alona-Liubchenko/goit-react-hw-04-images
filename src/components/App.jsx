@@ -5,7 +5,7 @@ import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 import { Modal } from './Modal/Modal';
 
-const KEY = '29510449-399a931f33aaf543423460729';
+// const KEY = '29510449-399a931f33aaf543423460729';
 
 export class App extends Component {
   state = {};

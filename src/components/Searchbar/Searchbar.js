@@ -4,20 +4,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export class Searchbar extends Component {
   state = {
-    imageName: '',
+    value: '',
   };
   hendleNameChange = e => {
-    this.setState({ imageName: e.currentTarget.value.toLowerCase() });
+    this.setState({ value: e.currentTarget.value.toLowerCase() });
   };
   hendleSubmit = e => {
     e.preventDefault();
-    if (this.state.imageName.trim() === '') {
+    if (this.state.value.trim() === '') {
       toast.error('Введіть назву картинок');
 
       return;
     }
-    this.props.onSubmit(this.state.imageName);
-    this.setState({ imageName: ' ' });
+    this.props.onSubmit(this.state.value);
+    this.setState({ value: ' ' });
   };
   render() {
     return (
@@ -33,7 +33,7 @@ export class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={this.state.imageName}
+            value={this.state.value}
             onChange={this.hendleNameChange}
           />
         </form>

@@ -13,9 +13,9 @@ export class Searchbar extends Component {
     e.preventDefault();
     if (this.state.value.trim() === '') {
       toast.error('Введіть назву картинок');
-
       return;
     }
+
     this.props.onSubmit(this.state.value);
     this.setState({ value: ' ' });
   };

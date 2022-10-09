@@ -1,9 +1,7 @@
 import React from 'react';
 
 export const ImageGalleryItem = ({ id, webformatURL }) => {
-  return (
-    <li className="gallery-item" key={id}>
-      <img src={webformatURL} alt="" />
-    </li>
-  );
+  <li>
+    <img src={webformatURL} alt="" />
+  </li>;
 };

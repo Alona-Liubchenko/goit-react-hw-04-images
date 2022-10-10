@@ -1,7 +1,9 @@
 import React from 'react';
 
-export const ImageGalleryItem = ({ id, webformatURL }) => {
-  <li>
-    <img src={webformatURL} alt="" />
-  </li>;
+export const ImageGalleryItem = ({ image }) => {
+  return (
+    <li>
+      <img src={image.webformatURL} alt="" />
+    </li>
+  );
 };

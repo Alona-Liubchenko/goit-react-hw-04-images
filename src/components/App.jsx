@@ -11,28 +11,40 @@ import { Modal } from './Modal/Modal';
 export class App extends Component {
   state = {
     images: [],
+    value: '',
+    page: 1,
+    isLoading: false,
+    error: '',
   };
-  // async componentDidMount() {
-  //   try {
-  //     const images = await API.addGallery();
-  //     this.setState({ images });
-  //   } catch (error) {}
-  // }
+
   hendleFormSubmit = async value => {
-    const image = await API.addGallery(value);
-    this.setState(state => ({
-      images: [image, ...state.images],
-    }));
-    console.log(image);
+    this.setState({ isLoading: true });
+    try {
+      const items = await API.fetchGallery(value);
+      this.setState({ images: items });
+      console.log(items);
+    } catch {
+      this.setState({ error: 'Error while loading data. Try again later' });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
+  onLoadMoreButton = () => {
+    this.setState(prev => ({
+      page: prev.page + 1,
+    }));
+  };
+
   render() {
+    const { images } = this.state;
     return (
       <div>
         <Searchbar onSubmit={this.hendleFormSubmit} />
 
-        <ImageGallery images={this.state.images} />
-        <Button></Button>
-        <Loader />
+        <ImageGallery images={images} />
+
+        {this.state.isLoading ? <Loader /> : <Button />}
+
         <Modal />
         <ToastContainer autoClose={2000} />
       </div>

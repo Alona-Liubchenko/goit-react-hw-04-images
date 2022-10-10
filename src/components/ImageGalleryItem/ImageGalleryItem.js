@@ -3,7 +3,7 @@ import React from 'react';
 export const ImageGalleryItem = ({ image }) => {
   return (
     <li>
-      <img src={image.webformatURL} alt="" />
+      <img src={image.webformatURL} alt={image.tags} />
     </li>
   );
 };

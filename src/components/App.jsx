@@ -19,40 +19,50 @@ export class App extends Component {
 
   hendleFormSubmit = value => {
     console.log(value);
-    this.setState(
-      {
-        value,
-        page: 1,
-        images: [],
-      }
-      // () => this.addImages(value)
-    );
+    this.setState({
+      value,
+      page: 1,
+      images: [],
+    });
   };
 
-  addImages = async value => {
-    console.log('add:', value);
-    this.setState({ isLoading: true });
-    try {
-      const items = await API.fetchGallery(value);
-      this.setState(prev => ({
-        total: items.total,
-        images: [...prev.images, ...items.hits],
-        error: '',
-      }));
-      console.log(items, items.total);
-    } catch {
-      this.setState({ error: 'Error while loading data. Try again later' });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
+  // addImages = async (value, page) => {
+  //   console.log('add:', value);
+  //   this.setState({ isLoading: true });
+  //   try {
+  //     const items = await API.fetchGallery(value, page);
+  //     this.setState(prev => ({
+  //       images: [...prev.images, ...items.hits],
+  //       error: '',
+  //     }));
+  //     console.log(items, items.total);
+  //   } catch {
+  //     this.setState({ error: 'Error while loading data. Try again later' });
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // };
   async componentDidUpdate(_, prevState) {
     if (
       prevState.page !== this.state.page ||
       prevState.value !== this.state.value
     ) {
-      console.log('fetch.data');
-      this.addImages(this.state.value);
+      // console.log('fetch.data');
+      // console.log('add:', this.state.value);
+      this.setState({ isLoading: true });
+      try {
+        const items = await API.fetchGallery(this.state.value, this.state.page);
+        this.setState(prev => ({
+          total: items.total,
+          images: [...prev.images, ...items.hits],
+          error: '',
+        }));
+        console.log(items, items.total);
+      } catch {
+        this.setState({ error: 'Error while loading data. Try again later' });
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
   }
   loadMore = async () => {

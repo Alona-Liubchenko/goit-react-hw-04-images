@@ -17,24 +17,47 @@ export class App extends Component {
     error: '',
   };
 
-  hendleFormSubmit = async value => {
+  hendleFormSubmit = value => {
+    console.log(value);
+    this.setState(
+      {
+        value,
+        page: 1,
+        images: [],
+      }
+      // () => this.addImages(value)
+    );
+  };
+
+  addImages = async value => {
+    console.log('add:', value);
     this.setState({ isLoading: true });
     try {
       const items = await API.fetchGallery(value);
-      this.setState({ images: items });
-      console.log(items);
+      this.setState(prev => ({
+        total: items.total,
+        images: [...prev.images, ...items.hits],
+        error: '',
+      }));
+      console.log(items, items.total);
     } catch {
       this.setState({ error: 'Error while loading data. Try again later' });
     } finally {
       this.setState({ isLoading: false });
     }
   };
-  onLoadMoreButton = () => {
-    this.setState(prev => ({
-      page: prev.page + 1,
-    }));
+  async componentDidUpdate(_, prevState) {
+    if (
+      prevState.page !== this.state.page ||
+      prevState.value !== this.state.value
+    ) {
+      console.log('fetch.data');
+      this.addImages(this.state.value);
+    }
+  }
+  loadMore = async () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
-
   render() {
     const { images } = this.state;
     return (
@@ -43,7 +66,15 @@ export class App extends Component {
 
         <ImageGallery images={images} />
 
-        {this.state.isLoading ? <Loader /> : <Button />}
+        {this.state.isLoading ? (
+          <Loader />
+        ) : (
+          <Button
+            items={images}
+            total={this.state.total}
+            onClick={this.loadMore}
+          />
+        )}
 
         <Modal />
         <ToastContainer autoClose={2000} />

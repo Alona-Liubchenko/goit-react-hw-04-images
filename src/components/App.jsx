@@ -7,6 +7,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 import { Modal } from './Modal/Modal';
+import css from './App.module.css';
 
 export class App extends Component {
   state = {
@@ -15,6 +16,10 @@ export class App extends Component {
     page: 1,
     isLoading: false,
     error: '',
+    largeImageUrl: null,
+  };
+  setLargeImageUrl = images => {
+    this.setState({ largeImageUrl: images });
   };
 
   hendleFormSubmit = value => {
@@ -71,10 +76,10 @@ export class App extends Component {
   render() {
     const { images } = this.state;
     return (
-      <div>
+      <div className={css.App}>
         <Searchbar onSubmit={this.hendleFormSubmit} />
 
-        <ImageGallery images={images} />
+        <ImageGallery images={images} onChange={this.setLargeImageUrl} />
 
         {this.state.isLoading ? (
           <Loader />
@@ -85,8 +90,10 @@ export class App extends Component {
             onClick={this.loadMore}
           />
         )}
+        {this.state.largeImageUrl && (
+          <Modal largeImageUrl={this.state.largeImageUrl} />
+        )}
 
-        <Modal />
         <ToastContainer autoClose={2000} />
       </div>
     );

@@ -1,10 +1,11 @@
 import React from 'react';
+import scc from './Modal.module.css';
 
-export const Modal = () => {
+export const Modal = largeImageUrl => {
   return (
-    <div className="overlay">
-      <div className="modal">
-        <img src="" alt="" />
+    <div className={scc.Overlay}>
+      <div className={scc.Modal}>
+        <img src={largeImageUrl} alt="" />
       </div>
     </div>
   );

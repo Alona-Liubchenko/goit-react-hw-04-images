@@ -79,7 +79,7 @@ export class App extends Component {
       <div className={css.App}>
         <Searchbar onSubmit={this.hendleFormSubmit} />
 
-        <ImageGallery images={images} onChange={this.setLargeImageUrl} />
+        <ImageGallery images={images} onClick={this.setLargeImageUrl} />
 
         {this.state.isLoading ? (
           <Loader />

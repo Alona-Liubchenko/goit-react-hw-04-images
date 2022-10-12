@@ -18,12 +18,8 @@ export class App extends Component {
     error: '',
     largeImageUrl: null,
   };
-  setLargeImageUrl = images => {
-    this.setState({ largeImageUrl: images });
-  };
 
   hendleFormSubmit = value => {
-    console.log(value);
     this.setState({
       value,
       page: 1,
@@ -31,29 +27,11 @@ export class App extends Component {
     });
   };
 
-  // addImages = async (value, page) => {
-  //   console.log('add:', value);
-  //   this.setState({ isLoading: true });
-  //   try {
-  //     const items = await API.fetchGallery(value, page);
-  //     this.setState(prev => ({
-  //       images: [...prev.images, ...items.hits],
-  //       error: '',
-  //     }));
-  //     console.log(items, items.total);
-  //   } catch {
-  //     this.setState({ error: 'Error while loading data. Try again later' });
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // };
   async componentDidUpdate(_, prevState) {
     if (
       prevState.page !== this.state.page ||
       prevState.value !== this.state.value
     ) {
-      // console.log('fetch.data');
-      // console.log('add:', this.state.value);
       this.setState({ isLoading: true });
       try {
         const items = await API.fetchGallery(this.state.value, this.state.page);
@@ -62,7 +40,6 @@ export class App extends Component {
           images: [...prev.images, ...items.hits],
           error: '',
         }));
-        console.log(items, items.total);
       } catch {
         this.setState({ error: 'Error while loading data. Try again later' });
       } finally {
@@ -73,14 +50,18 @@ export class App extends Component {
   loadMore = async () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
+  setLargeImageUrl = images => {
+    this.setState({ largeImageUrl: images });
+  };
+  OnCloseModal = () => {
+    this.setState({ largeImageUrl: null });
+  };
   render() {
     const { images } = this.state;
     return (
       <div className={css.App}>
         <Searchbar onSubmit={this.hendleFormSubmit} />
-
         <ImageGallery images={images} onClick={this.setLargeImageUrl} />
-
         {this.state.isLoading ? (
           <Loader />
         ) : (
@@ -91,9 +72,11 @@ export class App extends Component {
           />
         )}
         {this.state.largeImageUrl && (
-          <Modal largeImageUrl={this.state.largeImageUrl} />
+          <Modal
+            largeImageUrl={this.state.largeImageUrl}
+            onClose={this.OnCloseModal}
+          />
         )}
-
         <ToastContainer autoClose={2000} />
       </div>
     );

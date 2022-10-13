@@ -15,7 +15,7 @@ export class Searchbar extends Component {
   hendleSubmit = e => {
     e.preventDefault();
     if (this.state.value.trim() === '') {
-      toast.error('Введіть назву картинок');
+      toast.error('Enter the search query');
       return;
     }
 

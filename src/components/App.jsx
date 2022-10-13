@@ -41,7 +41,7 @@ export class App extends Component {
           error: '',
         }));
       } catch {
-        this.setState({ error: 'Error while loading data. Try again later' });
+        this.setState({ error: 'Error. Try again later' });
       } finally {
         this.setState({ isLoading: false });
       }

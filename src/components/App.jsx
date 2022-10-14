@@ -53,7 +53,7 @@ export class App extends Component {
   setLargeImageUrl = images => {
     this.setState({ largeImageUrl: images });
   };
-  OnCloseModal = () => {
+  onCloseModal = () => {
     this.setState({ largeImageUrl: null });
   };
   render() {
@@ -74,7 +74,7 @@ export class App extends Component {
         {this.state.largeImageUrl && (
           <Modal
             largeImageUrl={this.state.largeImageUrl}
-            onClose={this.OnCloseModal}
+            onClose={this.onCloseModal}
           />
         )}
         <ToastContainer autoClose={2000} />

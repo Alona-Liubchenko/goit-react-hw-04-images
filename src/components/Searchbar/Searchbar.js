@@ -1,50 +1,48 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import css from './Searchbar.module.css';
 import PropTypes from 'prop-types';
 import { BiSearchAlt2 } from 'react-icons/bi';
 
-export class Searchbar extends Component {
-  state = {
-    value: '',
+export const Searchbar = ({ onSubmit }) => {
+  const [value, setValue] = useState('');
+
+  const hendleNameChange = e => {
+    setValue(e.currentTarget.value.toLowerCase());
   };
-  hendleNameChange = e => {
-    this.setState({ value: e.currentTarget.value.toLowerCase() });
-  };
-  hendleSubmit = e => {
+  const hendleSubmit = e => {
     e.preventDefault();
-    if (this.state.value.trim() === '') {
+    if (value.trim() === '') {
       toast.error('Enter the search query');
       return;
     }
-
-    this.props.onSubmit(this.state.value);
-    this.setState({ value: ' ' });
+    onSubmit(value);
+    setValue(' ');
   };
-  render() {
-    return (
-      <header className={css.Searchbar}>
-        <form className={css.SearchForm} onSubmit={this.hendleSubmit}>
-          <button type="submit" className={css.SearchForm_button}>
-            <BiSearchAlt2 size="25px" />
-            {/* <span className={css.SearchForm_button_label}>Search</span> */}
-          </button>
 
-          <input
-            className={css.SearchForm_input}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.value}
-            onChange={this.hendleNameChange}
-          />
-        </form>
-      </header>
-    );
-  }
-}
+  return (
+    <header className={css.Searchbar}>
+      <form className={css.SearchForm} onSubmit={hendleSubmit}>
+        <button type="submit" className={css.SearchForm_button}>
+          <BiSearchAlt2 size="25px" />
+          {/* <span className={css.SearchForm_button_label}>Search</span> */}
+        </button>
+
+        <input
+          className={css.SearchForm_input}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={value}
+          onChange={hendleNameChange}
+        />
+      </form>
+    </header>
+  );
+};
+
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };

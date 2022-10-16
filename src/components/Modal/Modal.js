@@ -1,37 +1,32 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
 import scc from './Modal.module.css';
 import PropTypes from 'prop-types';
 
-export class Modal extends Component {
-  onCloseOverlay = event => {
+export const Modal = ({ largeImageUrl, onClose }) => {
+  const onCloseOverlay = event => {
     if (event.currentTarget === event.target) {
-      this.props.onClose();
+      onClose();
     }
   };
-  componentDidMount() {
-    window.addEventListener('keydown', this.onCloseEsc);
-  }
+  useEffect(() => {
+    const onCloseEsc = event => {
+      if (event.code === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onCloseEsc);
+    return () => {
+      window.removeEventListener('keydown', onCloseEsc);
+    };
+  }, [onClose]);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onCloseEsc);
-  }
-
-  onCloseEsc = event => {
-    if (event.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
-
-  render() {
-    return (
-      <div className={scc.Overlay} onClick={this.onCloseOverlay}>
-        <div className={scc.Modal}>
-          <img src={this.props.largeImageUrl} alt="" />
-        </div>
+  return (
+    <div className={scc.Overlay} onClick={onCloseOverlay}>
+      <div className={scc.Modal}>
+        <img src={largeImageUrl} alt="" />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   largeImageUrl: PropTypes.string.isRequired,

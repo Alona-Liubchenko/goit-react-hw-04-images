@@ -1,4 +1,3 @@
-import React from 'react';
 import { Puff } from 'react-loader-spinner';
 export const Loader = () => {
   return (

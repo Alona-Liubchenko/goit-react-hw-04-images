@@ -1,4 +1,4 @@
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import * as API from './services/api';
 
 import { useState, useEffect } from 'react';
@@ -43,12 +43,6 @@ export const App = () => {
     }
   }, [page, value]);
 
-  useEffect(() => {
-    if (error !== '') {
-      toast.error(error);
-    }
-  }, [error]);
-
   const loadMore = async () => {
     setPage(prevPage => prevPage + 1);
   };
@@ -65,6 +59,7 @@ export const App = () => {
     <div className={css.App}>
       <Searchbar onSubmit={hendleFormSubmit} />
       <ImageGallery images={images} onClick={callLargeImageUrl} />
+      {error && <div>{error}</div>}
       {isLoading ? (
         <Loader />
       ) : (
